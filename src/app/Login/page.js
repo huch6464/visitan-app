@@ -9,10 +9,22 @@ export default function LoginPage() {
   const [token, setToken] = useState(''); 
   const [code, setcode] = useState(['', '', '', '', '']);
   const [mobile1] = useState('0915***2738');
+  const [mobileError, setMobileError] = useState("");
 
+
+  //  اعتبارسنجی شماره موبایل ایران
+  function validateIranianMobile(number) {
+    //  با 09 شروع شود و 11 رقم باشد
+    return /^09\d{9}$/.test(number);
+  }
 
   
   const handleSendOtp = async () => {
+    setMobileError("");
+    if (!validateIranianMobile(mobile)) {
+      setMobileError("شماره موبایل معتبر وارد کنید (مثال: 09123456789)");
+      return;
+    }
     const res = await sendOtp(mobile);
     if (res.message?.includes('ارسال')) {
       setStep('otp');
@@ -72,7 +84,7 @@ export default function LoginPage() {
                     className="w-64 h-auto max-h-32 object-contain"
                   />
                 </div>
-          <div className="flex-none flex flex-col justfy-center item-center">
+          <div className="flex-none flex flex-col justify-center item-center">
           <h2 className="text-3xl mb-6 text-center">ویزیتان</h2>
           <p className="text-lg mb-4 text-center">
             پلتفرمی قدرتمند برای اتصال مستقیم فرهنگ‌ها و تأمین‌کننده‌هاست.
@@ -84,10 +96,9 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* بخش فرم ورود */}
+      {/*  فرم ورود */}
 
-      {step === 'mobile' 
-      ?
+      {step === 'mobile' ? (
        <div className="w-full md:w-1/2 lg:w-2/5 bg-white p-8 flex flex-col justify-center">
         <div className="mx-auto w-full max-w-md">
        
@@ -108,9 +119,12 @@ export default function LoginPage() {
                 id="mobile"
                 value={mobile}
                 onChange={(e) => setMobile(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${mobileError ? 'border-red-500' : 'border-gray-300'}`}
                 placeholder="09xxxxxxxxx"
               />
+              {mobileError && (
+                <div className="text-red-600 text-sm mt-1">{mobileError}</div>
+              )}
             </div>
 
             <button
@@ -127,9 +141,9 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-      :
+      ):
 
-      step === 'otp' && 
+      step === 'otp' && (
             <div className="w-full md:w-1/2 lg:w-2/5 bg-white p-8 flex flex-col justify-center">
               <div className="mx-auto w-full max-w-md">
       {/* عنوان و توضیح */}
@@ -179,7 +193,7 @@ export default function LoginPage() {
       </button>
     </div>
     </div>
-      }
+     ) }
     </div>
   );
 }

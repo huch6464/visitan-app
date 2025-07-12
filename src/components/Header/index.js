@@ -19,15 +19,15 @@ export default function Header() {
   return (
 <>
     <header className="sticky top-0 z-30 bg-white shadow-sm">
-      {/* Top Bar - Search Section */}
+      {/* سرچ */}
       <div className="bg-white px-4 py-3 border-b border-gray-100 ">
         <div className="flex flex-row-reverse items-center justify-between">
-          {/* Logo */}
+          {/*لگو */}
           <div className="text-lg font-bold text-gray-800" style={{ fontFamily: 'Tahoma, Arial, sans-serif' }}>
             ویزیتان
           </div>
 
-          {/* Search Bar */}
+          {/* اینپوت سرچ */}
           <div className="flex-1 mx-4 relative">
             <div className="relative">
               <input
@@ -41,14 +41,14 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Menu Button */}
+          {/* دکمه منو */}
           <button className="p-2 rounded-full hover:bg-gray-100">
             <Menu1 categories={categories} />
           </button>
         </div>
       </div>
 
-      {/* Categories Section */}
+      {/* دسته بندیها */}
       <div className="bg-white py-3 border-b border-gray-100">
         <div className="flex md:justify-between space-x-2 space-x-reverse overflow-x-auto scrollbar-hide px-4 touch-pan-x" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {categories.map((category) => (

@@ -9,14 +9,14 @@ export default function Logo_brands() {
       ];
     return(
          <section>
-      {/* Brands Section */}
+      {/* برندها */}
       <div className="bg-white py-4 border-b border-gray-100">
         <div className="flex md:justify-between space-x-4 space-x-reverse overflow-x-auto scrollbar-hide px-4 touch-pan-x" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {brands.map((brand) => (
             <div key={brand.id} className="flex-shrink-0 text-center touch-manipulation">
               <div className="relative">
                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 relative active:bg-gray-200 transition-colors">
-                  {/* Brand Logo Placeholder */}
+                  {/* Placeholder */}
                   <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm">
                     <span className="text-xs text-gray-500">Logo</span>
                   </div>
@@ -28,7 +28,7 @@ export default function Logo_brands() {
                   </div>
                 </div>
                 
-                {/* Rating Stars */}
+                {/* ستاره */}
                 <div className="flex justify-center mb-1">
                   {[...Array(5)].map((_, i) => (
                     <svg
@@ -42,7 +42,7 @@ export default function Logo_brands() {
                   ))}
                 </div>
                 
-                {/* Brand Name */}
+                {/* نام برند */}
                 <span className="text-xs text-gray-700 font-medium whitespace-nowrap" style={{ fontFamily: 'Tahoma, Arial, sans-serif' }}>
                   {brand.name}
                 </span>
@@ -52,7 +52,7 @@ export default function Logo_brands() {
         </div>
       </div>
 
-      {/* Banner Section */}
+      {/* بنر */}
       <div className="bg-white px-4 py-4">
         <div className="relative bg-gradient-to-r from-yellow-400 to-green-400 rounded-2xl overflow-hidden">
           <div className="p-6 flex items-center justify-between">
@@ -71,7 +71,7 @@ export default function Logo_brands() {
               </div>
             </div>
             <div className="flex-shrink-0">
-              {/* Product Image Placeholder */}
+              {/* Placeholder */}
               <div className="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center">
                   <span className="text-xs text-gray-500">محصول</span>

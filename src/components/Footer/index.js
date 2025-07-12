@@ -54,10 +54,8 @@ export default function Footer() {
   return (
     <footer className="sticky bottom-0 z-20 mx-2 bg-green-500 overflow-hidden rounded-t-[50px]">
 
-           {/* Top Green Bar */}
       <div className="bg-green-500 text-white px-4 py-3 -mt-1 ">
         <div className="flex items-center justify-between px-5">
-          {/* User Info */}
           <div className="flex items-center space-x-3 space-x-reverse">
             <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
               <User className="w-5 h-5 text-green-500" />
@@ -69,7 +67,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Balance and Factor Info */}
           <div className="flex items-center space-x-6 space-x-reverse">
             <div className="text-right">
               <div className="text-xs opacity-90 me-4" style={{ fontFamily: 'Tahoma, Arial, sans-serif' }}>
@@ -85,7 +82,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Main Footer */}
       <div className="bg-white border-t border-gray-200 rounded-t-[200px] ">
         <div className="flex justify-around items-center py-2 px-4">
           {menuItems.map((item) => {
@@ -120,7 +116,6 @@ export default function Footer() {
 
    
 
-      {/* Bottom Safe Area */}
       <div className="bg-white h-2"></div>
     </footer>
   );
