@@ -1,9 +1,63 @@
 'use client';
 
 import { useState } from 'react';
+import { sendOtp, confirmOtp } from '../../../lib/api';
 
 export default function LoginPage() {
   const [mobile, setMobile] = useState('');
+  const [step, setStep] = useState('mobile');
+  const [token, setToken] = useState(''); 
+  const [code, setcode] = useState(['', '', '', '', '']);
+  const [mobile1] = useState('0915***2738');
+
+
+  
+  const handleSendOtp = async () => {
+    const res = await sendOtp(mobile);
+    if (res.message?.includes('ارسال')) {
+      setStep('otp');
+    } else {
+      alert('خطا در ارسال کد');
+    }
+  };
+
+    const handleVerify = async () => {
+      const otpCode = code.join(''); 
+        if (otpCode.length !== 5) {
+    alert('لطفا کد ۵ رقمی را کامل وارد کنید');
+    return;
+  }
+    const res = await confirmOtp(mobile, otpCode, "dsafrtw", "customer");
+    if (res.object?.token) {
+      setToken(res.object.token);
+      // ذخیره توکن در کوکی (به مدت 7 روز)
+      document.cookie = `token=${res.object.token}; path=/; max-age=${7 * 24 * 60 * 60}`;
+      // ریدایرکت به صفحه اصلی با تاخیر کوتاه تا کوکی ست شود
+      setTimeout(() => {
+        window.location.replace("/");
+      }, 200);
+    } else {
+      alert('کد اشتباه است');
+    }
+  };
+
+    const handleChange = (value, index) => {
+
+    if (value && !/^\d+$/.test(value)) return;
+
+    const updated = [...code];
+    updated[index] = value.slice(-1); 
+    setcode(updated);
+
+      if (value && index < 4) {
+     const next = document.getElementById(`code-${index + 1}`);
+    if (next) next.focus();
+  }
+      if (!value && index > 0) {
+    const prev = document.getElementById(`code-${index - 1}`);
+    if (prev) prev.focus();
+  }
+  }
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
@@ -31,7 +85,10 @@ export default function LoginPage() {
       </div>
 
       {/* بخش فرم ورود */}
-      <div className="w-full md:w-1/2 lg:w-2/5 bg-white p-8 flex flex-col justify-center">
+
+      {step === 'mobile' 
+      ?
+       <div className="w-full md:w-1/2 lg:w-2/5 bg-white p-8 flex flex-col justify-center">
         <div className="mx-auto w-full max-w-md">
        
 
@@ -58,6 +115,7 @@ export default function LoginPage() {
 
             <button
               type="button"
+              onClick={handleSendOtp}
               className="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               ورود
@@ -69,6 +127,59 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+      :
+
+      step === 'otp' && 
+            <div className="w-full md:w-1/2 lg:w-2/5 bg-white p-8 flex flex-col justify-center">
+              <div className="mx-auto w-full max-w-md">
+      {/* عنوان و توضیح */}
+      <h1 className="text-lg font-semibold text-center mb-1">احراز هویت با کد تایید پیامکی</h1>
+      <p className="text-sm text-gray-500 text-center mb-2">
+        کد تایید ۵ رقمی به شماره شما ارسال شد. <br />
+        لطفا آن را وارد کنید.
+      </p>
+
+      {/* شماره موبایل */}
+      <div className="flex items-center justify-center gap-2 mb-4">
+        <span className="text-sm text-gray-600">{mobile1}</span>
+        <button className="text-green-600 text-sm underline">ویرایش</button>
+      </div>
+
+      {/* ورودی کد تایید */}
+      <div className="flex gap-2 justify-center mb-4">
+        {code.map((digit, index) => (
+          <input
+            key={index}
+            id={`code-${index}`}
+            type="tel"
+            maxLength={1}
+            value={digit}
+            onChange={(e) => handleChange(e.target.value, index)}
+            onKeyDown={(e) => {
+           if (e.key === 'Backspace' && !digit && index > 0) {
+           const prev = document.getElementById(`code-${index - 1}`);
+           if (prev) prev.focus();
+           }
+          }}
+           autoFocus={index === 0}
+           className="w-12 h-12 text-center text-lg border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        ))}
+      </div>
+
+      {/* تایمر */}
+      <p className="text-green-600 text-sm mb-4">۱:۳۰</p>
+
+      {/* دکمه ورود */}
+      <button 
+      onClick={handleVerify}
+      className="w-full bg-green-600 text-white py-3 rounded-full text-center text-base">
+        ورود
+
+      </button>
+    </div>
+    </div>
+      }
     </div>
   );
 }
